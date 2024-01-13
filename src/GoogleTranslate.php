@@ -444,7 +444,7 @@ class GoogleTranslate
 
         // Decode JSON data
         try {
-            $bodyArray = json_decode($bodyJson, true, flags: JSON_THROW_ON_ERROR);
+            $bodyArray = json_decode($bodyJson, true, JSON_THROW_ON_ERROR);
         } catch (JsonException) {
             throw new TranslationDecodingException('Data cannot be decoded or it is deeper than the recursion limit');
         }
