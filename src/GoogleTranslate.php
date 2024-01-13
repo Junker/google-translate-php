@@ -116,7 +116,7 @@ class GoogleTranslate
      * @param TokenProviderInterface|null $tokenProvider
      * @param bool|string $preserveParameters Boolean or custom regex pattern to match parameters
      */
-    public function __construct(string $target = 'en', string $source = null, array $options = [], TokenProviderInterface $tokenProvider = null, bool|string $preserveParameters = false)
+    public function __construct(string $target = 'en', string $source = null, array $options = [], TokenProviderInterface $tokenProvider = null, $preserveParameters = false)
     {
         $this->client = new Client();
         $this->setTokenProvider($tokenProvider ?? new GoogleTokenGenerator)
@@ -216,14 +216,14 @@ class GoogleTranslate
      * @param string|null $source Source language code (null for automatic language detection)
      * @param array $options HTTP client configuration options
      * @param TokenProviderInterface|null $tokenProvider Custom token provider
-     * @param bool|string $preserveParameters Boolean or custom regex pattern to match parameters
+     * @param $preserveParameters Boolean or custom regex pattern to match parameters
      * @return null|string
      * @throws LargeTextException If translation text is too large
      * @throws RateLimitException If Google has blocked you for excessive requests
      * @throws TranslationRequestException If any other HTTP related error occurs
      * @throws TranslationDecodingException If response JSON cannot be decoded
      */
-    public static function trans(string $string, string $target = 'en', string $source = null, array $options = [], TokenProviderInterface $tokenProvider = null, bool|string $preserveParameters = false): ?string
+    public static function trans(string $string, string $target = 'en', string $source = null, array $options = [], TokenProviderInterface $tokenProvider = null, $preserveParameters = false): ?string
     {
         return (new self)
             ->setTokenProvider($tokenProvider ?? new GoogleTokenGenerator)
@@ -312,10 +312,10 @@ class GoogleTranslate
      *
      * @example (e.g. "Hello :name" will extract "name")
      *
-     * @param bool|string $pattern Boolean or custom regex pattern to match parameters
+     * @param $pattern Boolean or custom regex pattern to match parameters
      * @return self
      */
-    public function preserveParameters(bool|string $pattern = true): self
+    public function preserveParameters($pattern = true): self
     {
         if ($pattern === true) {
             $this->pattern = '/:(\w+)/'; // Default regex
