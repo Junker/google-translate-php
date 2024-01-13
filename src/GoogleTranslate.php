@@ -419,10 +419,19 @@ class GoogleTranslate
                     'query' => $queryUrl,
                 ] + $this->options);
         } catch (GuzzleException $e) {
-            match ($e->getCode()) {
-                429, 503 => throw new RateLimitException($e->getMessage(), $e->getCode()),
-                413 => throw new LargeTextException($e->getMessage(), $e->getCode()),
-                default => throw new TranslationRequestException($e->getMessage(), $e->getCode()),
+            switch ($e->getCode()) {
+                case 429:
+                    throw new RateLimitException($e->getMessage(), $e->getCode());
+                    break;
+                case 503:
+                    throw new RateLimitException($e->getMessage(), $e->getCode());
+                    break;
+                case 413:
+                    throw new LargeTextException($e->getMessage(), $e->getCode());
+                    break;
+                default:
+                    throw new TranslationRequestException($e->getMessage(), $e->getCode());
+                    break;
             };
         } catch (Throwable $e) {
             throw new TranslationRequestException($e->getMessage(), $e->getCode());
